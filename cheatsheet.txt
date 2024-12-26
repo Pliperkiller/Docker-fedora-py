@@ -1,0 +1,20 @@
+#create env
+#move to the project folder and run
+python3 -m venv <env-name>
+
+#activate env (before creating)
+#move to the project folder and run
+source <env-name>/bin/activate
+
+#deactivate env (with env activated)
+deactivate
+
+#See which env is activated
+command -v python3
+
+#create requirements.txt
+pip3 freeze > requirements.txt
+
+#Install requirements.txt
+#Move to the requirements folder and run
+pip3 Install -r requirements.txt
