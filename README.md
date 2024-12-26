@@ -1,3 +1,5 @@
 # STEPS
-
-1
+```sh
+cd game
+python3 main.py
+```
