@@ -20,4 +20,8 @@ pip3 freeze > requirements.txt
 pip3 Install -r requirements.txt
 
 ##GIT
-git remote add main
+#add repo by ssh
+git remote add main git@github.com:Pliperkiller/Docker-fedora-py.git
+
+#push to branch 
+git push origin <branch-name>
