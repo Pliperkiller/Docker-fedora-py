@@ -18,3 +18,6 @@ pip3 freeze > requirements.txt
 #Install requirements.txt
 #Move to the requirements folder and run
 pip3 Install -r requirements.txt
+
+##GIT
+git remote add main
