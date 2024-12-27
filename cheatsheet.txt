@@ -25,3 +25,10 @@ git remote add main git@github.com:Pliperkiller/Docker-fedora-py.git
 
 #push to branch 
 git push origin <branch-name>
+
+#open command pallete in VScode
+ctrl+shift+P
+
+#set format to code (with open comand pallete)
+- select code to format
+- write Format document
