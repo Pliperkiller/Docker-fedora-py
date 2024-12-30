@@ -19,13 +19,8 @@ class player:
         self.winStatus = False
 
 
-
-class GameController:
-
-    def __init__(self, name1 = 'Player1', name2 = 'Player2'):
-        self.player1 = player(name1)
-        self.player2 = player(name2)
-        self.board = [0]*9
+class WinChecker:
+    def __init__(self):
         self.winConditions = [[1,1,1,0,0,0,0,0,0],
                             [0,0,0,1,1,1,0,0,0],
                             [0,0,0,0,0,0,1,1,1],
@@ -34,73 +29,71 @@ class GameController:
                             [0,0,1,0,0,1,0,0,1],
                             [1,0,0,0,1,0,0,0,1],
                             [0,0,1,0,1,0,1,0,0]]
+
+    def checkWin(self,player):
+        for row in self.winConditions:
+            if sum(1 for x, y in zip(player.locs, row) if x == y and y==1) ==3:
+                player.winStatus = True
+                return True
+        return False
+
+
+
+class Board:
+    def __init__(self):
+        self.cells = [0]*9
+    
+    def update(self, player1, player2):
+        for i in range(len(self.cells)):
+            if player1.locs[i] !=0:
+                self.cells[i] = 1
+            if player2.locs[i] !=0:
+                self.cells[i] = 2
+    
+    def printBoard(self):
+        for i in range(0, len(self.cells), 3):
+            print(self.cells[i:i+3])
+
+    def fullBoardCheck(self):
+        if len([cell for cell in self.cells if cell !=0]) == 9: return True
+        return False
+
+
+class GameController:
+
+    def __init__(self, name1 = 'Player1', name2 = 'Player2'):
+        self.player1 = player(name1)
+        self.player2 = player(name2)
+        self.board = Board()
+        self.winChecker = WinChecker()
         self.gameStatus = True
         self.p1Turn = False
         self.p2Turn = False
 
-    def printBoard(self):
-        for i in range(0, len(self.board), 3):
-            print(self.board[i:i+3])
-    
     def updateBoard(self):
-        for i in range(len(self.board)):
-            if self.player1.locs[i] !=0:
-                self.board[i] = 1
-            elif self.player2.locs[i] !=0:
-                self.board[i] = 2
+        self.board.update(self.player1,self.player2)
 
-    def setPlayer1Values(self,index):
-        if self.player2.locs[index] == 1:
-            print("Unable to set this position since player2 is already using it")
+    def set_player_value(self, player, index):
+        opponent = self.player2 if player == self.player1 else self.player1
+        if opponent.locs[index] == 1 or player.locs[index] == 1:
+            print(f"Unable to set this position as it is already selected.")
             return False
-        
-        if self.player1.locs[index] == 1:
-            print("Unable to set this position since player1 is already using it")
-            return False
-        else:
-            self.player1.setLoc(index)
-            return True
-        
-    def setPlayer2Values(self,index):
-        if self.player1.locs[index] == 1:
-            print("Unable to set this position since player1 is already using it")
-            return False
-        
-        if self.player2.locs[index] == 1:
-            print("Unable to set this position since player2 is already using it")
-            return False
-        
-        else:
-            self.player2.setLoc(index)
-            return True
+        player.setLoc(index)
+        self.board.update(self.player1, self.player2)
+        return True
 
-    def checkPlayer1Win(self):
-        for row in self.winConditions:
-            if sum(1 for x, y in zip(self.player1.locs, row) if x == y) ==3:
-                self.player1.winStatus = True
-                return True
-        return False
-            
-    def checkPlayer2Win(self):
-        for row in self.winConditions:
-            if sum(1 for x, y in zip(self.player2.locs, row) if x == y) ==3:
-                self.player2.winStatus = True
-                return True
-        return False
-        
-    def checkGameStatus(self):
-        if self.player1 or self.player2:
-            self.gameStatus = True
-
-        return self.gameStatus
+    def checkWin(self,player):
+        return self.winChecker.checkWin(player)
+          
     
     def resetGame(self):
-        self.board = [0]*9
-        self.gameStatus = False
+        self.board = Board()
+        self.gameStatus = True
         self.player1.winStatus = False
         self.player2.winStatus = False
         self.player1.resetLoc()
         self.player2.resetLoc()
+
 
 class GameManager:
     def __init__(self, gameController):
