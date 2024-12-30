@@ -1,6 +1,4 @@
 
-
-
 class player:
 
     def __init__(self, name):
@@ -99,9 +97,10 @@ class GameController:
     def resetGame(self):
         self.board = [0]*9
         self.gameStatus = False
+        self.player1.winStatus = False
+        self.player2.winStatus = False
         self.player1.resetLoc()
         self.player2.resetLoc()
-
 
 class GameManager:
     def __init__(self, gameController):
