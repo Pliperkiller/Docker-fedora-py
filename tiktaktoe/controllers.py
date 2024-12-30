@@ -1,4 +1,6 @@
 
+
+
 class player:
 
     def __init__(self, name):
@@ -18,6 +20,8 @@ class player:
     def resetWinStatus(self):
         self.winStatus = False
 
+
+
 class GameController:
 
     def __init__(self, name1 = 'Player1', name2 = 'Player2'):
@@ -32,7 +36,9 @@ class GameController:
                             [0,0,1,0,0,1,0,0,1],
                             [1,0,0,0,1,0,0,0,1],
                             [0,0,1,0,1,0,1,0,0]]
-        self.gameStatus = False
+        self.gameStatus = True
+        self.p1Turn = False
+        self.p2Turn = False
 
     def printBoard(self):
         for i in range(0, len(self.board), 3):
@@ -95,3 +101,12 @@ class GameController:
         self.gameStatus = False
         self.player1.resetLoc()
         self.player2.resetLoc()
+
+
+class GameManager:
+    def __init__(self, gameController):
+        self.player1Score = 0
+        self.player2Score = 0
+        self.gameNumber = 0
+        self.gameController = gameController
+        self.inGame = True
